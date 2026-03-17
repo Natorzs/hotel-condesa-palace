@@ -51,7 +51,7 @@ export default function Home() {
         href={WHATSAPP_URL}
         target="_blank"
         rel="noopener noreferrer"
-        className="fixed bottom-6 right-6 z-50 flex items-center gap-2.5 px-5 py-3.5 rounded-full shadow-2xl text-sm font-semibold transition-all duration-300 hover:scale-105"
+        className="fixed bottom-6 right-28 z-50 flex items-center gap-2.5 px-5 py-3.5 rounded-full shadow-2xl text-sm font-semibold transition-all duration-300 hover:scale-105"
         style={{
           background: "linear-gradient(135deg, #25D366, #128C7E)",
           color: "white",
