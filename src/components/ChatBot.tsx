@@ -15,7 +15,7 @@ interface Message {
   timestamp: Date;
 }
 
-const N8N_ENDPOINT = "https://uninstilled-aaliyah-guilelessly.ngrok-free.dev/webhook-test/chat-hotel";
+const N8N_ENDPOINT = "https://uninstilled-aaliyah-guilelessly.ngrok-free.dev/webhook/chat-hotel";
 
 export default function ChatBot() {
   const [isOpen, setIsOpen] = useState(false);
