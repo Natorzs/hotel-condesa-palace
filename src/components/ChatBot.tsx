@@ -95,7 +95,7 @@ export default function ChatBot() {
       const botMessage: Message = {
         id: Date.now().toString(),
         type: "bot",
-        text: (data.message || data.response || "No entendí tu mensaje. ¿Podrías intentar de nuevo?").replace(/##COTIZACION##.*?##FIN##/gs, '').trim(),
+        text: (data.message || data.response || "No entendí tu mensaje. ¿Podrías intentar de nuevo?").replace(/##COT##.*?##FIN##/gs, '').trim(),
         timestamp: new Date(),
       };
 
