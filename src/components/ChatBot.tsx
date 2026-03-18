@@ -19,7 +19,7 @@ const N8N_ENDPOINT = "https://uninstilled-aaliyah-guilelessly.ngrok-free.dev/web
 
 export default function ChatBot() {
   // Cambia el state de sessionId por este bloque:
-  const [sessionId, setSessionId] = useState(`session-${Date.now()}`);
+  const [sessionId] = useState(`session-${Date.now()}-${Math.random()}`);
 
   useEffect(() => {
     // Esto solo se ejecuta en el navegador
