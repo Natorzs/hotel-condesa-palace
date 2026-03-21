@@ -15,7 +15,7 @@ interface Message {
   timestamp: Date;
 }
 
-const N8N_ENDPOINT = "https://uninstilled-aaliyah-guilelessly.ngrok-free.dev/webhook/chat-hotel";
+const N8N_ENDPOINT = "http://187.124.238.28:5678/webhook/chat-hotel";
 
 export default function ChatBot() {
   // Cambia el state de sessionId por este bloque:
