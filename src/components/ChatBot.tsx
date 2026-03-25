@@ -125,8 +125,17 @@ export default function ChatBot() {
     }
   };
 
+  const stripMarkdown = (text: string): string => {
+    return text
+      .replace(/\*\*(.*?)\*\*/g, "$1")  // negritas **texto**
+      .replace(/\*(.*?)\*/g, "$1")       // italicas *texto*
+      .replace(/__(.*?)__/g, "$1")       // negritas __texto__
+      .replace(/_(.*?)_/g, "$1");        // italicas _texto_
+  };
+
   const renderMessageText = (text: string) => {
-    const parts = text.split(/(https?:\/\/[^\s]+)/g);
+    const clean = stripMarkdown(text);
+    const parts = clean.split(/(https?:\/\/[^\s]+)/g);
     return (
       <span>
         {parts.map((part, i) => {
