@@ -129,25 +129,26 @@ export default function ChatBot() {
     const parts = text.split(/(https?:\/\/[^\s]+)/g);
     return (
       <span>
-        {parts.map((part, i) =>
-          /^https?:\/\//.test(part) ? (
-            
-              key={i}
-              href={part}
-              target="_blank"
-              rel="noopener noreferrer"
-              style={{
-                color: "oklch(0.45 0.15 240)",
-                textDecoration: "underline",
-                fontWeight: "600",
-              }}
-            >
-              Ver catálogo →
-            </a>
-          ) : (
-            <span key={i}>{part}</span>
-          )
-        )}
+        {parts.map((part, i) => {
+          if (/^https?:\/\//.test(part)) {
+            return (
+              <a
+                key={i}
+                href={part}
+                target="_blank"
+                rel="noopener noreferrer"
+                style={{
+                  color: "oklch(0.45 0.15 240)",
+                  textDecoration: "underline",
+                  fontWeight: "600",
+                }}
+              >
+                Ver catálogo →
+              </a>
+            );
+          }
+          return <span key={i}>{part}</span>;
+        })}
       </span>
     );
   };
