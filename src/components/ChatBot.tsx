@@ -18,11 +18,9 @@ interface Message {
 const N8N_ENDPOINT = "https://uninstilled-aaliyah-guilelessly.ngrok-free.dev/webhook/chat-hotel";
 
 export default function ChatBot() {
-  // Cambia el state de sessionId por este bloque:
   const [sessionId] = useState(
     () => `sess_${Date.now()}_${Math.random().toString(36).substr(2, 9)}`
   );
-
 
   const [isOpen, setIsOpen] = useState(false);
   const [messages, setMessages] = useState<Message[]>([
@@ -48,7 +46,6 @@ export default function ChatBot() {
   const handleSendMessage = async () => {
     if (!inputValue.trim()) return;
 
-    // Add user message
     const userMessage: Message = {
       id: Date.now().toString(),
       type: "user",
@@ -60,7 +57,6 @@ export default function ChatBot() {
     setInputValue("");
     setIsLoading(true);
 
-    // Add typing indicator
     const typingMessage: Message = {
       id: "typing",
       type: "typing",
@@ -78,7 +74,7 @@ export default function ChatBot() {
         },
         body: JSON.stringify({
           message: inputValue,
-          sessionId: sessionId
+          sessionId: sessionId,
         }),
       });
 
@@ -88,14 +84,18 @@ export default function ChatBot() {
 
       const data = await response.json();
 
-      // Remove typing indicator
       setMessages((prev) => prev.filter((msg) => msg.id !== "typing"));
 
-      // Add bot response
       const botMessage: Message = {
         id: Date.now().toString(),
         type: "bot",
-        text: (data.message || data.response || "No entendí tu mensaje. ¿Podrías intentar de nuevo?").replace(/##COT##.*?##FIN##/gs, '').trim(),
+        text: (
+          data.message ||
+          data.response ||
+          "No entendí tu mensaje. ¿Podrías intentar de nuevo?"
+        )
+          .replace(/##COT##.*?##FIN##/gs, "")
+          .trim(),
         timestamp: new Date(),
       };
 
@@ -103,10 +103,8 @@ export default function ChatBot() {
     } catch (error) {
       console.error("Error sending message:", error);
 
-      // Remove typing indicator
       setMessages((prev) => prev.filter((msg) => msg.id !== "typing"));
 
-      // Add error message
       const errorMessage: Message = {
         id: Date.now().toString(),
         type: "bot",
@@ -125,6 +123,33 @@ export default function ChatBot() {
       e.preventDefault();
       handleSendMessage();
     }
+  };
+
+  const renderMessageText = (text: string) => {
+    const parts = text.split(/(https?:\/\/[^\s]+)/g);
+    return (
+      <span>
+        {parts.map((part, i) =>
+          /^https?:\/\//.test(part) ? (
+            
+              key={i}
+              href={part}
+              target="_blank"
+              rel="noopener noreferrer"
+              style={{
+                color: "oklch(0.45 0.15 240)",
+                textDecoration: "underline",
+                fontWeight: "600",
+              }}
+            >
+              Ver catálogo →
+            </a>
+          ) : (
+            <span key={i}>{part}</span>
+          )
+        )}
+      </span>
+    );
   };
 
   return (
@@ -183,7 +208,8 @@ export default function ChatBot() {
             <div
               className="p-4 rounded-t-sm text-white font-semibold flex items-center justify-between"
               style={{
-                background: "linear-gradient(135deg, oklch(0.22 0.06 240) 0%, oklch(0.30 0.07 240) 100%)",
+                background:
+                  "linear-gradient(135deg, oklch(0.22 0.06 240) 0%, oklch(0.30 0.07 240) 100%)",
                 fontFamily: "'Playfair Display', serif",
               }}
             >
@@ -207,7 +233,9 @@ export default function ChatBot() {
                   initial={{ opacity: 0, y: 10 }}
                   animate={{ opacity: 1, y: 0 }}
                   transition={{ duration: 0.3 }}
-                  className={`flex ${message.type === "user" ? "justify-end" : "justify-start"}`}
+                  className={`flex ${
+                    message.type === "user" ? "justify-end" : "justify-start"
+                  }`}
                 >
                   <div
                     className={`max-w-xs px-4 py-2 rounded-sm ${
@@ -240,21 +268,29 @@ export default function ChatBot() {
                         </motion.span>
                         <motion.span
                           animate={{ y: [0, -6, 0] }}
-                          transition={{ duration: 0.6, repeat: Infinity, delay: 0.1 }}
+                          transition={{
+                            duration: 0.6,
+                            repeat: Infinity,
+                            delay: 0.1,
+                          }}
                           style={{ color: "oklch(0.82 0.07 75)" }}
                         >
                           •
                         </motion.span>
                         <motion.span
                           animate={{ y: [0, -6, 0] }}
-                          transition={{ duration: 0.6, repeat: Infinity, delay: 0.2 }}
+                          transition={{
+                            duration: 0.6,
+                            repeat: Infinity,
+                            delay: 0.2,
+                          }}
                           style={{ color: "oklch(0.82 0.07 75)" }}
                         >
                           •
                         </motion.span>
                       </div>
                     ) : (
-                      message.text
+                      renderMessageText(message.text)
                     )}
                   </div>
                 </motion.div>
