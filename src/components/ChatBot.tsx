@@ -126,11 +126,22 @@ export default function ChatBot() {
   };
 
   const stripMarkdown = (text: string): string => {
-    return text
-      .replace(/\*\*(.*?)\*\*/g, "$1")  // negritas **texto**
-      .replace(/\*(.*?)\*/g, "$1")       // italicas *texto*
-      .replace(/__(.*?)__/g, "$1")       // negritas __texto__
-      .replace(/_(.*?)_/g, "$1");        // italicas _texto_
+    // Primero protege las URLs para que el regex de markdown no las toque
+    const urls: string[] = [];
+    const protectedText = text.replace(/(https?:\/\/[^\s]+)/g, (match) => {
+      urls.push(match);
+      return "__URL_" + (urls.length - 1) + "__";
+    });
+
+    // Limpia markdown
+    const cleaned = protectedText
+      .replace(/\*\*(.*?)\*\*/g, "$1")
+      .replace(/\*(.*?)\*/g, "$1")
+      .replace(/__(.*?)__/g, "$1")
+      .replace(/_(.*?)_/g, "$1");
+
+    // Restaura las URLs originales
+    return cleaned.replace(/__URL_(\d+)__/g, (_, i) => urls[parseInt(i)]);
   };
 
   const renderMessageText = (text: string) => {
