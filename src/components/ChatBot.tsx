@@ -130,7 +130,7 @@ export default function ChatBot() {
     const urls: string[] = [];
     const protectedText = text.replace(/(https?:\/\/[^\s]+)/g, (match) => {
       urls.push(match);
-      return "__URL_" + (urls.length - 1) + "__";
+      return "URLPLACEHOLDER" + (urls.length - 1) + "END";
     });
 
     // Limpia markdown
@@ -141,7 +141,7 @@ export default function ChatBot() {
       .replace(/_(.*?)_/g, "$1");
 
     // Restaura las URLs originales
-    return cleaned.replace(/__URL_(\d+)__/g, (_, i) => urls[parseInt(i)]);
+    return cleaned.replace(/URLPLACEHOLDER(\d+)END/g, (_, i) => urls[parseInt(i)]);
   };
 
   const renderMessageText = (text: string) => {
