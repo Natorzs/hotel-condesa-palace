@@ -72,6 +72,7 @@ export default function ChatBot() {
           "Content-Type": "application/json",
           "Bypass-Tunnel-Reminder": "true",
           "x-bot-token": "Cond3sa$Acapulco2026!HCP",
+          },
         body: JSON.stringify({
           message: inputValue,
           sessionId: sessionId,
